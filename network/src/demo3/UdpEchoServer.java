@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+//111111
+
 public class UdpEchoServer {
     private DatagramSocket socket = null;
 
@@ -13,7 +15,7 @@ public class UdpEchoServer {
     }
 
     public void start() throws IOException {
-        System.out.println("服务器启动");
+        System.out.println("服务器启动！");
         while(true){
             DatagramPacket RequestPacket = new DatagramPacket(new byte[4096],4096);
             socket.receive(RequestPacket);
