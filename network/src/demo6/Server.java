@@ -20,13 +20,17 @@ public class Server {
         while(true) {
             Socket clientSocket = serverSocket.accept();
             Thread thread = new Thread(() -> {
-                Connection(clientSocket);
+                try {
+                    Connection(clientSocket);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
             thread.start();
         }
     }
 
-    private void Connection(Socket clientSocket){
+    private void Connection(Socket clientSocket) throws IOException {
         System.out.printf("客户端[%s:%d]上线!\n",clientSocket.getInetAddress(),clientSocket.getPort());
         try(InputStream inputStream = clientSocket.getInputStream();
                 OutputStream outputStream = clientSocket.getOutputStream()) {
@@ -56,6 +60,7 @@ public class Server {
             throw new RuntimeException(e);
         }finally {
             System.out.printf("客户端[%s:%d]下线!\n",clientSocket.getInetAddress(),clientSocket.getPort());
+            clientSocket.close();
         }
     }
 
