@@ -1,0 +1,1 @@
+package org.zdl.booksystem.Pojo;import lombok.Data;import java.math.BigDecimal;@Datapublic class book {    private String Id;    private String bookName;    private String author;    private Integer count;    private long price;    private String status;    private String statusCN;}
