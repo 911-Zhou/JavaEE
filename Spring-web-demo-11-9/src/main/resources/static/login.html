@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>登录页面</title>
+</head>
+
+<body>
+  <h1>用户登录</h1>
+  用户名：<input name="userName" type="text" id="userName"><br>
+  密码：<input name="password" type="password" id="password"><br>
+  <input type="button" value="登录" onclick="login()">
+  
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script>
+    function login() {
+      $.ajax({
+        url:'/index/login',
+        type:'post',
+        data:{
+          userName:$('#userName').val(),
+          password:$('#password').val()
+        },
+        success: function (response) {
+          // 成功时的回调
+          if (response) {
+            console.log('Valid username'); // 如果返回 true
+            window.location.href = '/index.html'; // 跳转到目标页面
+          } else {
+            console.log('Invalid username'); // 如果返回 false
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("无法连接服务器"); // 错误时的回调
+        }
+      })
+    }
+
+  </script>
+</body>
+
+</html>
