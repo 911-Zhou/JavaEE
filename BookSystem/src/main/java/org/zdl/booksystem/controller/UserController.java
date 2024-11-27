@@ -15,6 +15,8 @@ public class UserController {
         //1.校验参数格式
         //2.查询数据库校验账号密码
         //3.正确，存储session
+        System.out.println("登录请求触发");
+
         if(!StringUtils.hasLength(name) || !StringUtils.hasLength(password)){
             return false;
         }
@@ -25,5 +27,9 @@ public class UserController {
         }
 
         return false;
+    }
+    @RequestMapping("/loginTest")
+    public void login(){
+        System.out.println("登录请求触发");
     }
 }
