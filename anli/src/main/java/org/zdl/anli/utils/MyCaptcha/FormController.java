@@ -14,7 +14,7 @@ public class FormController {
     @RequestMapping("/submit")
     public String submitForm(@RequestParam("userCaptcha") String userCaptcha, HttpServletRequest request) {
         //提交请求触发
-        System.out.println("提交请求触发 提交数据为："+userCaptcha);
+        System.out.println("提交请求触发 提交数据为：" + userCaptcha);
 
         // 从Session获取生成的验证码
         String generatedCaptcha = (String) request.getSession().getAttribute("captcha");

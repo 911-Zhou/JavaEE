@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.io.IOException;
 
 //3. 将验证码图片返回给前端
@@ -12,7 +13,7 @@ import java.io.IOException;
 @Controller
 public class CaptchaController {
 
-    @GetMapping("/captcha")
+    @GetMapping("/Mycaptcha")
     @ResponseBody
     public void getCaptcha(HttpServletResponse response, HttpSession session) throws IOException {
         // 生成验证码

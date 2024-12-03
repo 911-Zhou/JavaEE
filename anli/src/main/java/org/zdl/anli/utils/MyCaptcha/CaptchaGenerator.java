@@ -1,4 +1,5 @@
 package org.zdl.anli.utils.MyCaptcha;
+
 import java.util.Random;
 
 //1. 后端生成验证码（4位数字符验证码）

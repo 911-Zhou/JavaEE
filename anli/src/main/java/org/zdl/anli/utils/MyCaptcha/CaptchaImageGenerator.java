@@ -1,4 +1,5 @@
 package org.zdl.anli.utils.MyCaptcha;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
