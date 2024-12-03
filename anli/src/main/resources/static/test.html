@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>验证码测试</title>
+</head>
+<body>
+验证码：<input type="text" name="captcha" id="captcha" />
+<button type="submit" onclick="submitCaptcha()">提交</button>
+<img src="/captcha" alt="Captcha" />
+<script src="js/jquery-3.7.1.min.js"></script>
+
+<script>
+    function submitCaptcha(){
+        $.ajax({
+            url:'/form/submit',
+            method:'post',
+            data:{
+                userCaptcha:$('#captcha').val()
+            },
+            success: function(response){
+                console.log(response)
+                if (response) {
+                    console.log('验证成功'); // 如果返回 true
+                    window.location.href = '/test2.html'; // 跳转到目标页面
+                } else {
+                    console.log('验证失败'); // 如果返回 false
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

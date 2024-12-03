@@ -1,8 +1,7 @@
 package org.zdl.booksystem.dao;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.zdl.booksystem.Pojo.book;
+import org.zdl.booksystem.Pojo.Book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +11,10 @@ import java.util.UUID;
 //java bean   // 实体类
 @Repository
 public class BookDao {
-    public List<book> mockData() {
-        List<book> bookList = new ArrayList<>();
+    public List<Book> mockData() {
+        List<Book> bookList = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
-            book example = new book();
+            Book example = new Book();
             example.setId(UUID.randomUUID().toString());
             example.setBookName("图书"+i);
             example.setStatus(String.valueOf(1));
