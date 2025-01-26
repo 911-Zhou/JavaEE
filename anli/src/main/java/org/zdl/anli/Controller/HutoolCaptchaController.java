@@ -4,6 +4,9 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.ShearCaptcha;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +17,10 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/captcha")
+@Slf4j
 public class HutoolCaptchaController {
+    //日志类
+//    private static Logger logger = LoggerFactory.getLogger(HutoolCaptchaController.class);
 
     @Autowired
     private CaptchaProperties captchaProperties;
@@ -25,6 +31,8 @@ public class HutoolCaptchaController {
         ShearCaptcha captcha = CaptchaUtil.createShearCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight(), 4, 4);
 
         System.out.println("生成验证码:" + captcha.getCode());
+        log.info("logger日志生成：" + "生成验证码:" + captcha.getCode());
+
 
         //将验证码存到session中
         session.setAttribute(captchaProperties.getSession().getKey(),captcha.getCode());

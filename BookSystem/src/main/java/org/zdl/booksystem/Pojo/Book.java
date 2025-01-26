@@ -1,1 +1,0 @@
-package org.zdl.booksystem.Pojo;import lombok.Data;@Datapublic class Book {    private String Id;    private String bookName;    private String author;    private Integer count;    private long price;    private String status;    private String statusCN;}

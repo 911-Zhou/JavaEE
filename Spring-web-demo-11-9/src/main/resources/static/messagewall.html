@@ -69,8 +69,8 @@
             //1. 获取留言的内容
             var from = $('#from').val();
             var to = $('#to').val();
-            var say = $('#say').val();
-            if (from== '' || to == '' || say == '') {
+            var message = $('#say').val();
+            if (from== '' || to == '' || message == '') {
                 return;
             }
 
@@ -80,14 +80,14 @@
                 type:"post",
                 contentType: "application/json", // 设置为 JSON 格式
                 data: JSON.stringify({
-                    from: $("#from").text(),
-                    to: $("#to").text(),
-                    say: $("#say").text()
+                    from: $("#from").val(),
+                    to: $("#to").val(),
+                    message: $("#say").val()
                 }),
             })
 
             //2. 构造节点
-            var divE = "<div>"+from +"对" + to + "说:" + say+"</div>";
+            var divE = "<div>"+from +"对" + to + "说:" + message+"</div>";
             //3. 把节点添加到页面上    
             $(".container").append(divE);
 
@@ -107,7 +107,7 @@
                 // console.log(response.length);
                 for (let i = 0; i < response.length; i++) {
                     //2. 构造节点
-                    let divE = "<div>"+response[i].from +"对" + response[i].to + "说:" + response[i].say+"</div>";
+                    let divE = "<div>"+response[i].from +"对" + response[i].to + "说:" + response[i].message+"</div>";
                     //3. 把节点添加到页面上
                     $(".container").append(divE);
                 }
