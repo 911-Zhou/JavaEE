@@ -50,7 +50,7 @@
                     <td>可借阅</td>
                     <td>
                         <div class="op">
-                            <a href="book_update.html?bookId=1">修改</a>
+                                <a href="book_update.html?bookId=1">修改</a>
                             <a href="javascript:void(0)" onclick="deleteBook(1)">删除</a>
                         </div>
                     </td>
@@ -64,27 +64,45 @@
         </div>
         <script>
 
-            getBookList();
-            function getBookList() {
+            // getBookList();
+            function getBookList(page,callback) {
                 $.ajax({
-                    url: "/book/getList",
-                    type: "GET",
-                    success: function (data) {
-                        console.log(data);
-                        for (let item of data) {
-                            let html = "";
-                            html += "<tr>";
-                            html += "<td><input type='checkbox' name='selectBook' value='" + item.id + "' id='selectBook' class='bookInfo-select'></td>";
-                            html += "<td>" + item.id + "</td>";
-                            html += "<td>" + item.bookName + "</td>";
-                            html += "<td>" + item.author + "</td>";
-                            html += "<td>" + item.count + "</td>";
-                            html += "<td>" + item.price + "</td>";
-                            html += "<td>" + "北京出版社" + "</td>";
-                            html += "<td>" + item.statusCN + "</td>";
-                            html += "<td><div class='op'><a href='book_update.html?bookId=" + item.id + "'>修改</a><a href='javascript:void(0)' onclick='deleteBook(" + item.id + ")'>删除</a></div></td>";
-                            html += "</tr>";
-                            $("#bookList").append(html);
+                    url: "/book/GetListByPage",
+                    type: "POST",
+                    data:{
+                        CurrentPage:page,
+                        PageSize:10
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        //未登录判断
+                        var data = result.data;
+                        if (result == null || result.data == null) {
+                            location.href = "login.html";
+                            return;
+                        }
+
+
+                        var finalHtml = "";
+                        for (var book of data.records) {
+                            finalHtml += '<tr>';
+                            finalHtml += '<td><input type="checkbox" name="selectBook" value="'+book.id+'" id="selectBook" class="book-select"></td>';
+                            finalHtml += '<td>'+book.id+'</td>';
+                            finalHtml += '<td>'+book.bookName+'</td>';
+                            finalHtml += '<td>'+book.author+'</td>';
+                            finalHtml += '<td>'+book.count+'</td>';
+                            finalHtml += '<td>'+book.price+'</td>';
+                            finalHtml += '<td>'+book.publish+'</td>';
+                            finalHtml += '<td>'+book.statusCN+'</td>';
+                            finalHtml += '<td><div class="op">';
+                            finalHtml += '<a href="book_update.html?bookId='+book.id+'">修改</a>';
+                            finalHtml += '<a href="javascript:void(0)" onclick="deleteBook('+book.id+')">删除</a>';
+                            finalHtml += '</div></td>';
+                            finalHtml += "</tr>";
+                        }
+                        $("tbody").html(finalHtml);
+                        if (callback) {
+                            callback(data);  // 🚀 这里必须调用 callback，否则不会执行
                         }
                     }
                 })
@@ -103,15 +121,38 @@
                 page: '<li class="page-item"><a class="page-link" href="javascript:void(0);">{{page}}<\/a><\/li>',
                 //页面初始化和页码点击时都会执行
                 onPageChange: function (page, type) {
+                    getBookList(page,function(result){
+                        console.log(result.total)
+                        console.log("totalCounts:"+this.totalCounts+",pageSize:"+this.pageSize)
+                        this.totalCounts = result.total
+                        this.visiblePages = Math.ceil(this.totalCounts / this.pageSize)+1
+
+                        //动态更新
+                        $("#pageContainer").jqPaginator("option", {
+                            totalCounts: this.totalCounts,
+                            visiblePages: this.visiblePages
+                        });
+                    }.bind(this))
                     console.log("第" + page + "页, 类型:" + type);
                 }
             });
+
+
             function deleteBook(id) {
                 var isDelete = confirm("确认删除?");
-                if (isDelete) {
-                    //删除图书
-                    alert("删除成功");
-                }
+
+                $.ajax({
+                    url:"book/deleteBook"+"?id="+id,
+                    type: "GET",
+                    success:function (response){
+                        alert(response)
+                        getBookList()
+                    },
+                    error:function (response){
+                        alert(response)
+                    }
+                })
+
             }
             function batchDelete() {
                 var isDelete = confirm("确认批量删除?");
@@ -122,7 +163,20 @@
                         ids.push($(this).val());
                     });
                     console.log(ids);
-                    alert("批量删除成功");
+
+                    $.ajax({
+                        url:"book/batchDelBook",
+                        type:"post",
+                        data: {
+                            ids:ids
+                        },
+                        success:function (response){
+                            alert("批量删除成功");
+                        },
+                        error:function (){
+                            alert("批量删除失败");
+                        }
+                    })
                 }
             }
 

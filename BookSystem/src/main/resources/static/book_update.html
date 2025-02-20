@@ -24,6 +24,7 @@
 
         <form id="updateBook">
             <input type="hidden" class="form-control" id="bookId" name="id">
+<!--            <input class="form-control" id="bookId" name="id">-->
             <div class="form-group">
                 <label for="bookName">图书名称:</label>
                 <input type="text" class="form-control" id="bookName" name="bookName">
@@ -59,9 +60,33 @@
     </div>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script>
+        $.ajax({
+            url:"/book/queryBookById"+location.search,
+            type:"GET",
+            success:function(response){
+                var book = response;
+                $('#bookId').val(book.id);
+                $('#bookName').val(book.bookName);
+                $('#bookAuthor').val(book.author);
+                $('#bookStock').val(book.count);
+                $('#bookPrice').val(book.price);
+                $('#bookPublisher').val(book.publish);
+                $('#bookStatus').val(book.status);
+            }
+        })
         
         function update() {
-            alert("更新成功");
+            $.ajax({
+                url:"book/updateBook",
+                type: "POST",
+                data:$("#updateBook").serialize(),
+                success:function (response){
+                    alert(response);
+                },
+                error:function (response){
+                    alert(response)
+                }
+            })
             location.href = "book_list.html"
         }
     </script>

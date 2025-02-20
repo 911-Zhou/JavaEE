@@ -1,8 +1,6 @@
 package org.zdl.booksystem.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.zdl.booksystem.model.BookInfo;
 import org.zdl.booksystem.model.PageRequest;
 
@@ -29,6 +27,22 @@ public  interface BookMapper {
     public Integer AbleCount();
 
     //分页查询
-    @Select("SELECT * from book_info limit #{}")
+    @Select("select * from book_info where status !=0 order by id asc limit #{offset},#{PageSize}")
     public List<BookInfo> getListByPage(PageRequest request);
+
+    //获取指定id图书
+    @Select("select * from book_info where id = #{id}")
+    public BookInfo getBookByID(Integer id);
+
+
+    public Integer updateBook(BookInfo bookInfo);
+
+    //删除图书
+//    @Delete("delete from book_info where id = #{id}")
+    @Update("update book_info set status = 0 where id = #{id}")
+    public Integer deleteBook(Integer id);
+
+
+    //批量删除
+    public Integer batchDelBook(List<Integer> ids);
 }

@@ -1,8 +1,11 @@
 package org.zdl.booksystem.model;
 
+import lombok.Data;
+
 import java.util.List;
 
 //分页响应类
+@Data
 public class PageResponse<T> {
     //数据总数
     private int total;
