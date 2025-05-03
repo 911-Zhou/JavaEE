@@ -3,8 +3,74 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.example.batiestest.dao.userInfoXmlMapper">
-<!--    查询所有用户-->
+<!--    更新用户数据-->
+    <update id="UpdateUser">
+        update user_info
+        <set>
+            <if test="username!=null">
+                username = #{username},
+            </if>
+            <if test="password!=null">
+                password = #{password},
+            </if>
+            <if test="age!=null">
+                age = #{age},
+            </if>
+            <if test="gender!=null">
+                gender = #{gender}
+            </if>
+            <if test="phone!=null">
+                phone = #{phone}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--    <update id="UpdateUser">-->
+<!--        update user_info-->
+<!--        set-->
+<!--        <if test="username!=null">-->
+<!--            username = #{username},-->
+<!--        </if>-->
+<!--        <if test="password!=null">-->
+<!--            password = #{password},-->
+<!--        </if>-->
+<!--        <if test="age!=null">-->
+<!--            age = #{age},-->
+<!--        </if>-->
+<!--        <if test="gender!=null">-->
+<!--            gender = #{gender},-->
+<!--        </if>-->
+<!--        <if test="phone!=null">-->
+<!--            phone = #{phone},-->
+<!--        </if>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+    <!--    查询所有用户-->
     <select id="queryAllUser" resultType="org.example.batiestest.pojo.User">
         select *  from user_info
     </select>
+<!--    根据传入User类的参数来查询-->
+    <select id="queryByUser" resultType="org.example.batiestest.pojo.User">
+        select * from user_info
+        <where>
+            <if test="username!=null">
+                username = #{username}
+            </if>
+            <if test="age!=null">
+                and age = #{age}
+            </if>
+            <if test="gender!=null">
+                and gender = #{gender}
+            </if>
+        </where>
+    </select>
+<!--    批量删除用户-->
+    <update id="deleteUsers">
+        update user_info
+        set delete_flag = 1
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 </mapper>

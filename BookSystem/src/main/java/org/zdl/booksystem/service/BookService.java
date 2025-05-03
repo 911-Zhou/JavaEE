@@ -66,21 +66,6 @@ public class BookService {
     }
 
     public Result<PageResponse<BookInfo>> getListByPage(PageRequest request, HttpServletRequest httpServletRequest){
-        //用户未登录判断
-        HttpSession session = httpServletRequest.getSession(false);
-
-        if(session==null || session.getAttribute(constants.SESSION_USER_KEY)==null){
-            return Result.unLogin();
-        }
-
-        UserInfo userInfo = (UserInfo) session.getAttribute("session_user_key");
-
-        if (userInfo==null || userInfo.getID()<0 ||
-                "".equals(userInfo.getUserName())){
-            return Result.unLogin();
-        }
-
-
 
         Integer count = bookMapper.AbleCount();
 
